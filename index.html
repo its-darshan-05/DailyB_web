@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DailyB Catering</title>
+<style>
+  :root { --ink:#1d2a2e; --muted:#62747a; --line:#dfe6e8; --bg:#f6f8f8; --card:#fff; --brand:#1f4e5f; --ok:#1e7a46; --bad:#b3261e; --warn:#a8610a; }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; color:var(--ink); background:var(--bg); line-height:1.5; }
+  main { max-width: 560px; margin: 0 auto; padding: 16px 16px 48px; }
+  header { background: var(--brand); color:#fff; padding: 20px 16px; }
+  header div { max-width:560px; margin:0 auto; }
+  header small { opacity:.8; }
+  h1 { margin: 2px 0 0; font-size: 1.45rem; line-height:1.25; }
+  h2 { font-size: 1.05rem; margin: 24px 0 8px; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px 16px; }
+  dl { margin:0; display:grid; grid-template-columns: 7.5rem 1fr; gap:6px 10px; }
+  dt { color:var(--muted); } dd { margin:0; }
+  .role { display:flex; justify-content:space-between; gap:12px; padding:8px 0; border-bottom:1px solid var(--line); }
+  .role:last-child { border:0; }
+  .tag { font-size:.8rem; font-weight:600; padding:2px 10px; border-radius:20px; display:inline-block; }
+  .open { background:#e3f4ea; color:var(--ok); } .closed { background:#fbe9e7; color:var(--bad); }
+  label { display:block; font-weight:600; margin:12px 0 4px; font-size:.92rem; }
+  input, select, textarea { width:100%; font:inherit; padding:11px 12px; border:1px solid #b9c5c9; border-radius:8px; background:#fff; color:var(--ink); }
+  input:focus, select:focus, textarea:focus, button:focus-visible { outline:3px solid #9cc8d6; outline-offset:1px; }
+  button { font:inherit; font-weight:600; width:100%; margin-top:16px; padding:13px; border:0; border-radius:8px; background:var(--brand); color:#fff; cursor:pointer; }
+  button[disabled] { opacity:.6; cursor:wait; }
+  button.ghost { background:#fff; color:var(--brand); border:1px solid var(--brand); }
+  .msg { margin-top:12px; padding:10px 12px; border-radius:8px; }
+  .msg.err { background:#fbe9e7; color:var(--bad); } .msg.good { background:#e3f4ea; color:var(--ok); } .msg.wait { background:#fff3e0; color:var(--warn); }
+  .ref { font-size:1.5rem; letter-spacing:.06em; font-weight:700; }
+  .center { text-align:center; padding:48px 8px; }
+  .hidden { display:none; }
+  @media (prefers-reduced-motion: no-preference) { .card { transition: box-shadow .2s; } }
+</style>
+</head>
+<body>
+<header><div><small id="biz">DailyB Catering</small><h1 id="title">Loading event…</h1></div></header>
+<main id="root"><p class="center">Loading…</p></main>
+<footer style="text-align:center;color:#62747a;font-size:.8rem;padding:0 16px 28px">© 2026 Darshan Bharathi. All rights reserved.</footer>
+
+<script src="config.js"></script>
+<script>
+var API = String((window.DAILYB_CONFIG || {}).api || '');
+var qs = new URLSearchParams(location.search);
+var PID = (qs.get('project') || '').replace(/[^A-Za-z0-9_-]/g, ''), TOKEN = (qs.get('t') || '').replace(/[^A-Za-z0-9_-]/g, ''), CC = '+91';
+var root = document.getElementById('root');
+function el(tag, props, kids) {
+  var n = document.createElement(tag);
+  Object.keys(props || {}).forEach(function (k) { if (k === 'text') n.textContent = props[k]; else if (k === 'class') n.className = props[k]; else n.setAttribute(k, props[k]); });
+  (kids || []).forEach(function (c) { n.appendChild(typeof c === 'string' ? document.createTextNode(c) : c); });
+  return n;
+}
+function run(action, data, ok, fail) {
+  fetch(API, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ action: action, data: data }) })
+    .then(function (r) { return r.json(); })
+    .then(function (j) { if (!j.ok) throw new Error(j.error || 'Request failed'); return j.data; })
+    .then(ok, function (e) {
+      fail(e instanceof TypeError || /JSON/.test(String(e)) ? 'Could not connect. Check your internet and try again.' : String(e.message || e).replace(/^Error:\s*/, ''));
+    });
+}
+function money(n) { return '₹' + Number(n || 0).toLocaleString('en-IN'); }
+function prettyDate(s) { var d = new Date(s + 'T00:00:00'); return isNaN(d) ? s : d.toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }); }
+function note(parent, cls, text) { var old = parent.querySelector('.msg'); if (old) old.remove(); parent.appendChild(el('div', { class: 'msg ' + cls, role: 'status', text: text })); }
+
+function showState(title, text) { document.getElementById('title').textContent = title; root.replaceChildren(el('div', { class: 'center' }, [el('p', { text: text })])); }
+
+function loadProject() {
+  run('publicGetProject', { projectId: PID, t: TOKEN }, function (p) {
+    if (p.state === 'unavailable') return showState('Service unavailable', 'Registration is currently unavailable. Please contact the organiser.');
+    if (p.state === 'notfound') return showState('Link not found', 'This link is not valid. Please ask the organiser for the correct link.');
+    if (p.state === 'disabled') return showState(p.name, 'Registration for this event is not available right now. Please contact the organiser.');
+    render(p);
+  }, function (e) { showState('Something went wrong', e); });
+}
+if (!API || API.indexOf('PASTE_') >= 0) showState('Not set up yet', 'This website has not been connected to its database yet. Please contact the organiser.');
+else if (!PID || !TOKEN) showState('Link not found', 'This link is not valid. Please ask the organiser for the correct link.');
+else loadProject();
+
+function render(p) {
+  document.getElementById('biz').textContent = p.business;
+  document.getElementById('title').textContent = p.name;
+  document.title = p.name + ' · ' + p.business;
+  var open = p.registration === 'open' || (p.registration === 'full' && p.waitlist);
+  var statusText = p.registration === 'open' ? 'Registration open' : p.registration === 'full' ? (p.waitlist ? 'Positions filled – waiting list open' : 'All positions filled') : 'Registration closed';
+  var details = el('dl', {});
+  function row(k, v) { if (v) { details.appendChild(el('dt', { text: k })); details.appendChild(el('dd', { text: v })); } }
+  row('Date', prettyDate(p.eventDate));
+  row('Reporting time', p.reportingTime);
+  row('Working hours', p.startTime ? p.startTime + (p.endTime ? ' – ' + p.endTime : '') : '');
+  row('Venue', p.venue);
+  var card = el('section', { class: 'card' }, [el('span', { class: 'tag ' + (open ? 'open' : 'closed'), text: statusText }), el('div', { style: 'height:10px' }), details]);
+  if (p.mapUrl && /^https?:\/\//.test(p.mapUrl)) card.appendChild(el('p', {}, [el('a', { href: p.mapUrl, target: '_blank', rel: 'noopener', text: 'Open map' })]));
+  var out = [card];
+  if (p.description) out.push(el('h2', { text: 'About this event' }), el('p', { text: p.description }));
+  var roles = el('section', { class: 'card' });
+  p.roles.forEach(function (r) {
+    var left = Math.max(0, r.needed - r.filled);
+    roles.appendChild(el('div', { class: 'role' }, [el('span', { text: r.role }), el('span', { text: money(r.wage) + ' · ' + (left ? left + ' of ' + r.needed + ' open' : 'filled') })]));
+  });
+  out.push(el('h2', { text: 'Roles and wages' }), roles);
+  if (p.instructions) out.push(el('h2', { text: 'Instructions' }), el('p', { text: p.instructions }));
+  if (open) out.push(el('h2', { text: 'Register' }), form(p));
+  out.push(el('h2', { text: 'Already applied?' }), statusForm());
+  root.replaceChildren.apply(root, out);
+}
+
+function field(id, label, node) { return [el('label', { for: id, text: label }), node]; }
+function form(p) {
+  var f = el('form', { class: 'card', novalidate: 'novalidate' });
+  var name = el('input', { id: 'f-name', autocomplete: 'name', required: 'required', maxlength: 80 });
+  var mobile = el('input', { id: 'f-mobile', type: 'tel', autocomplete: 'tel', inputmode: 'tel', value: CC + ' ', required: 'required' });
+  var role = el('select', { id: 'f-role' }, p.roles.map(function (r) { return el('option', { value: r.role, text: r.role + ' – ' + money(r.wage) }); }));
+  var avail = el('input', { id: 'f-avail', placeholder: 'e.g. Full day, evening only', maxlength: 200 });
+  var exp = el('textarea', { id: 'f-exp', rows: 2, maxlength: 300, placeholder: 'Optional' });
+  [field('f-name', 'Full name', name), field('f-mobile', 'Mobile number (with country code)', mobile), field('f-role', 'Preferred role', role), field('f-avail', 'Availability', avail), field('f-exp', 'Experience', exp)]
+    .forEach(function (g) { g.forEach(function (n) { f.appendChild(n); }); });
+  var btn = el('button', { type: 'submit', text: 'Submit application' });
+  f.appendChild(btn);
+  f.addEventListener('submit', function (ev) {
+    ev.preventDefault();
+    if (name.value.trim().length < 2) return note(f, 'err', 'Enter your full name.');
+    if (mobile.value.replace(/\D/g, '').length < 8) return note(f, 'err', 'Enter a valid mobile number with country code.');
+    btn.disabled = true; btn.textContent = 'Submitting…';
+    run('publicRegister', { projectId: PID, t: TOKEN, name: name.value, mobile: mobile.value, role: role.value, availability: avail.value, experience: exp.value }, function (r) {
+      try { localStorage.setItem('dailyb_ref_' + PID, r.reference + '|' + mobile.value); } catch (e) {}
+      f.replaceChildren(el('p', { text: r.waitlisted ? 'You are on the waiting list for ' + r.project + '.' : 'Application received for ' + r.project + '.' }),
+        el('div', { class: 'ref', text: r.reference }),
+        el('p', { text: 'Save this reference. Use it with your mobile number to check your status. You will be contacted on WhatsApp once the organiser decides.' }));
+    }, function (e) { btn.disabled = false; btn.textContent = 'Submit application'; note(f, 'err', e); });
+  });
+  return f;
+}
+
+function statusForm() {
+  var f = el('form', { class: 'card', novalidate: 'novalidate' });
+  var saved = ''; try { saved = localStorage.getItem('dailyb_ref_' + PID) || ''; } catch (e) {}
+  var ref = el('input', { id: 's-ref', placeholder: 'R-XXXXXXXX', autocapitalize: 'characters', value: saved.split('|')[0] || '' });
+  var mob = el('input', { id: 's-mob', type: 'tel', inputmode: 'tel', value: saved.split('|')[1] || CC + ' ' });
+  [field('s-ref', 'Application reference', ref), field('s-mob', 'Mobile number', mob)].forEach(function (g) { g.forEach(function (n) { f.appendChild(n); }); });
+  var btn = el('button', { type: 'submit', class: 'ghost', text: 'Check my status' });
+  f.appendChild(btn);
+  f.addEventListener('submit', function (ev) {
+    ev.preventDefault(); btn.disabled = true;
+    run('publicCheckStatus', { ref: ref.value, mobile: mob.value }, function (s) {
+      btn.disabled = false;
+      var map = { pending: ['wait', 'Pending – the organiser has not decided yet.'], approved: ['good', 'Approved – you are selected.'], rejected: ['err', 'Not selected for this event.'], withdrawn: ['wait', 'Withdrawn.'] };
+      var m = map[s.status] || ['wait', s.status];
+      var text = s.project + ' (' + s.role + '): ' + m[1] + (s.waitlisted && s.status === 'pending' ? ' You are on the waiting list.' : '');
+      if (s.status === 'approved') text += ' ' + prettyDate(s.date) + ', report at ' + s.reportingTime + ', ' + s.venue + '. Wage ' + money(s.wage) + '.';
+      note(f, m[0], text);
+    }, function (e) { btn.disabled = false; note(f, 'err', e); });
+  });
+  return f;
+}
+</script>
+</body>
+</html>
