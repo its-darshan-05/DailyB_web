@@ -3,53 +3,77 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>DailyB Catering</title>
+<meta name="theme-color" content="#1B2F5B">
+<title>Work with us</title>
 <style>
-  :root { --ink:#1d2a2e; --muted:#62747a; --line:#dfe6e8; --bg:#f6f8f8; --card:#fff; --brand:#1f4e5f; --ok:#1e7a46; --bad:#b3261e; --warn:#a8610a; }
+  :root { --navy9:#0F1F3D; --navy7:#1B2F5B; --navy5:#2E4A82; --navy1:#E3E9F5; --g50:#F3F4F7; --g100:#E8EAEE; --g300:#C9CED6; --g600:#5F6877; --g900:#222733;
+          --ok:#1F6B4A; --okbg:#E4F1EA; --bad:#9B2C2C; --badbg:#F8E6E6; --warn:#7A5A12; --warnbg:#F6EFD9; }
   * { box-sizing: border-box; }
-  body { margin:0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; color:var(--ink); background:var(--bg); line-height:1.5; }
-  main { max-width: 560px; margin: 0 auto; padding: 16px 16px 48px; }
-  header { background: var(--brand); color:#fff; padding: 20px 16px; }
-  header div { max-width:560px; margin:0 auto; }
-  header small { opacity:.8; }
+  body { margin:0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; color:var(--g900); background:var(--g50); line-height:1.5; }
+  main { max-width: 600px; margin: 0 auto; padding: 16px 16px 40px; }
+  header { background: linear-gradient(180deg,var(--navy9),var(--navy7)); color:#fff; padding: 22px 16px 24px; }
+  header div { max-width:600px; margin:0 auto; }
+  header small { opacity:.75; letter-spacing:.04em; text-transform:uppercase; font-size:.75rem; }
   h1 { margin: 2px 0 0; font-size: 1.45rem; line-height:1.25; }
-  h2 { font-size: 1.05rem; margin: 24px 0 8px; }
-  .card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px 16px; }
+  h2 { font-size: 1.05rem; margin: 26px 0 8px; color:var(--navy7); }
+  .sub { color:var(--g600); font-size:.92rem; margin:0 0 10px; }
+  .card { background:#fff; border:1px solid var(--g300); border-radius:10px; padding:14px 16px; margin-bottom:12px; }
   dl { margin:0; display:grid; grid-template-columns: 7.5rem 1fr; gap:6px 10px; }
-  dt { color:var(--muted); } dd { margin:0; }
-  .role { display:flex; justify-content:space-between; gap:12px; padding:8px 0; border-bottom:1px solid var(--line); }
+  dt { color:var(--g600); } dd { margin:0; }
+  .role { display:flex; justify-content:space-between; gap:12px; padding:8px 0; border-bottom:1px solid var(--g100); }
   .role:last-child { border:0; }
-  .tag { font-size:.8rem; font-weight:600; padding:2px 10px; border-radius:20px; display:inline-block; }
-  .open { background:#e3f4ea; color:var(--ok); } .closed { background:#fbe9e7; color:var(--bad); }
-  label { display:block; font-weight:600; margin:12px 0 4px; font-size:.92rem; }
-  input, select, textarea { width:100%; font:inherit; padding:11px 12px; border:1px solid #b9c5c9; border-radius:8px; background:#fff; color:var(--ink); }
-  input:focus, select:focus, textarea:focus, button:focus-visible { outline:3px solid #9cc8d6; outline-offset:1px; }
-  button { font:inherit; font-weight:600; width:100%; margin-top:16px; padding:13px; border:0; border-radius:8px; background:var(--brand); color:#fff; cursor:pointer; }
+  .tag { font-size:.78rem; font-weight:600; padding:2px 10px; border-radius:20px; display:inline-block; }
+  .open { background:var(--okbg); color:var(--ok); } .closed { background:var(--badbg); color:var(--bad); } .full { background:var(--warnbg); color:var(--warn); }
+  label { display:block; font-weight:600; margin:14px 0 4px; font-size:.92rem; color:var(--navy7); }
+  .hint { font-weight:400; color:var(--g600); font-size:.82rem; display:block; }
+  input, select, textarea { width:100%; font:inherit; padding:11px 12px; border:1px solid var(--g300); border-radius:8px; background:#fff; color:var(--g900); }
+  input:focus, select:focus, textarea:focus, button:focus-visible, a.btn:focus-visible, .day:focus-visible { outline:3px solid #9DB1DA; outline-offset:1px; }
+  button, a.btn { display:block; text-align:center; text-decoration:none; font:inherit; font-weight:600; width:100%; margin-top:16px; padding:13px; border:0; border-radius:8px; background:var(--navy7); color:#fff; cursor:pointer; }
+  button:hover, a.btn:hover { background:var(--navy5); }
   button[disabled] { opacity:.6; cursor:wait; }
-  button.ghost { background:#fff; color:var(--brand); border:1px solid var(--brand); }
+  button.ghost, a.btn.ghost { background:#fff; color:var(--navy7); border:1px solid var(--navy7); }
+  a.btn.small { margin-top:10px; padding:10px; }
   .msg { margin-top:12px; padding:10px 12px; border-radius:8px; }
-  .msg.err { background:#fbe9e7; color:var(--bad); } .msg.good { background:#e3f4ea; color:var(--ok); } .msg.wait { background:#fff3e0; color:var(--warn); }
-  .ref { font-size:1.5rem; letter-spacing:.06em; font-weight:700; }
+  .msg.err { background:var(--badbg); color:var(--bad); } .msg.good { background:var(--okbg); color:var(--ok); } .msg.wait { background:var(--warnbg); color:var(--warn); }
+  .ref { font-size:1.5rem; letter-spacing:.06em; font-weight:700; color:var(--navy7); }
   .center { text-align:center; padding:48px 8px; }
+  .row { display:flex; gap:8px; } .row select { width:34%; flex:none; } .row input { flex:1; min-width:0; }
+  .strip { display:flex; gap:8px; overflow-x:auto; padding:2px 2px 10px; scroll-snap-type:x proximity; }
+  .day { flex:none; width:64px; text-align:center; border:1px solid var(--g300); background:#fff; border-radius:10px; padding:8px 4px; cursor:pointer; font:inherit; margin:0; color:var(--g900); scroll-snap-align:start; position:relative; font-weight:400; }
+  .day:hover { background:var(--g100); }
+  .day b { display:block; font-size:1.2rem; line-height:1.2; } .day span { font-size:.72rem; color:var(--g600); display:block; text-transform:uppercase; }
+  .day[aria-pressed="true"] { background:var(--navy7); border-color:var(--navy7); color:#fff; } .day[aria-pressed="true"] span { color:#C9D4EE; }
+  .day i { position:absolute; top:-6px; right:-4px; background:var(--navy5); color:#fff; font-style:normal; font-size:.7rem; min-width:20px; padding:0 5px; border-radius:10px; }
+  .chips { display:flex; flex-wrap:wrap; gap:6px; margin:6px 0 0; }
+  .chip { background:var(--navy1); color:var(--navy7); border-radius:16px; padding:3px 4px 3px 12px; font-size:.86rem; display:inline-flex; align-items:center; gap:2px; }
+  .chip button { margin:0; width:26px; height:26px; padding:0; background:transparent; color:var(--navy7); border-radius:50%; font-size:1rem; line-height:1; }
+  .chip button:hover { background:var(--g300); }
+  ul.carry { margin:6px 0 0; padding-left:20px; } ul.carry li { margin:2px 0; }
+  .check { display:flex; gap:10px; align-items:flex-start; font-weight:400; color:var(--g900); margin:14px 0 0; }
+  .check input { width:20px; height:20px; margin:2px 0 0; flex:none; accent-color:var(--navy7); }
+  .photo { display:flex; gap:12px; align-items:center; } .photo img { width:72px; height:72px; border-radius:50%; object-fit:cover; border:2px solid var(--g300); background:var(--g100); }
+  .photo input { padding:8px; }
+  .back { display:inline-block; margin-bottom:10px; color:var(--navy5); font-weight:600; text-decoration:none; }
   .hidden { display:none; }
-  @media (prefers-reduced-motion: no-preference) { .card { transition: box-shadow .2s; } }
+  footer { text-align:center; color:var(--g600); font-size:.8rem; padding:0 16px 28px; }
 </style>
 </head>
 <body>
-<header><div><small id="biz">DailyB Catering</small><h1 id="title">Loading event…</h1></div></header>
+<header><div><small id="biz">Work with us</small><h1 id="title">Loading…</h1></div></header>
 <main id="root"><p class="center">Loading…</p></main>
-<footer style="text-align:center;color:#62747a;font-size:.8rem;padding:0 16px 28px">© 2026 Darshan Bharathi. All rights reserved.</footer>
+<footer>© 2026 Darshan Bharathi. All rights reserved.</footer>
 
 <script src="config.js"></script>
 <script>
 var API = String((window.DAILYB_CONFIG || {}).api || '');
 var qs = new URLSearchParams(location.search);
-var PID = (qs.get('project') || '').replace(/[^A-Za-z0-9_-]/g, ''), TOKEN = (qs.get('t') || '').replace(/[^A-Za-z0-9_-]/g, ''), CC = '+91';
-var root = document.getElementById('root');
+var PID = (qs.get('project') || '').replace(/[^A-Za-z0-9_-]/g, ''), TOKEN = (qs.get('t') || '').replace(/[^A-Za-z0-9_-]/g, ''), FROM_LIST = qs.get('from') === 'days';
+var root = document.getElementById('root'), OPTS = { requirePhoto: true, requireAadhaar: true, countryCode: '+91' };
+
 function el(tag, props, kids) {
   var n = document.createElement(tag);
   Object.keys(props || {}).forEach(function (k) { if (k === 'text') n.textContent = props[k]; else if (k === 'class') n.className = props[k]; else n.setAttribute(k, props[k]); });
-  (kids || []).forEach(function (c) { n.appendChild(typeof c === 'string' ? document.createTextNode(c) : c); });
+  (kids || []).forEach(function (c) { if (c) n.appendChild(typeof c === 'string' ? document.createTextNode(c) : c); });
   return n;
 }
 function run(action, data, ok, fail) {
@@ -60,100 +84,244 @@ function run(action, data, ok, fail) {
       fail(e instanceof TypeError || /JSON/.test(String(e)) ? 'Could not connect. Check your internet and try again.' : String(e.message || e).replace(/^Error:\s*/, ''));
     });
 }
-function money(n) { return '₹' + Number(n || 0).toLocaleString('en-IN'); }
-function prettyDate(s) { var d = new Date(s + 'T00:00:00'); return isNaN(d) ? s : d.toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }); }
-function note(parent, cls, text) { var old = parent.querySelector('.msg'); if (old) old.remove(); parent.appendChild(el('div', { class: 'msg ' + cls, role: 'status', text: text })); }
-
-function showState(title, text) { document.getElementById('title').textContent = title; root.replaceChildren(el('div', { class: 'center' }, [el('p', { text: text })])); }
-
-function loadProject() {
-  run('publicGetProject', { projectId: PID, t: TOKEN }, function (p) {
-    if (p.state === 'unavailable') return showState('Service unavailable', 'Registration is currently unavailable. Please contact the organiser.');
-    if (p.state === 'notfound') return showState('Link not found', 'This link is not valid. Please ask the organiser for the correct link.');
-    if (p.state === 'disabled') return showState(p.name, 'Registration for this event is not available right now. Please contact the organiser.');
-    render(p);
-  }, function (e) { showState('Something went wrong', e); });
+function setHead(biz, title) { document.getElementById('biz').textContent = biz || 'Work with us'; document.getElementById('title').textContent = title; document.title = title + (biz ? ' - ' + biz : ''); }
+function show() { root.innerHTML = ''; Array.prototype.slice.call(arguments).forEach(function (n) { if (n) root.appendChild(n); }); window.scrollTo(0, 0); }
+function notice(title, text) { setHead('', title); show(el('div', { class: 'card center' }, [el('p', { text: text })])); }
+function pretty(d) { var p = d.split('-'); return new Date(Date.UTC(+p[0], +p[1] - 1, +p[2])).toLocaleDateString('en-IN', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' }); }
+function addDays(ymd, n) { var p = ymd.split('-'); return new Date(Date.UTC(+p[0], +p[1] - 1, +p[2] + n)).toISOString().slice(0, 10); }
+function msgBox(text, kind) { return el('div', { class: 'msg ' + kind, role: kind === 'err' ? 'alert' : 'status', text: text }); }
+function carryBox(items) {
+  if (!items || !items.length) return null;
+  return el('div', { class: 'card' }, [el('b', { text: 'Please carry with you' }), el('ul', { class: 'carry' }, items.map(function (x) { return el('li', { text: x }); }))]);
 }
-if (!API || API.indexOf('PASTE_') >= 0) showState('Not set up yet', 'This website has not been connected to its database yet. Please contact the organiser.');
-else if (!PID || !TOKEN) showState('Link not found', 'This link is not valid. Please ask the organiser for the correct link.');
-else loadProject();
 
-function render(p) {
-  document.getElementById('biz').textContent = p.business;
-  document.getElementById('title').textContent = p.name;
-  document.title = p.name + ' · ' + p.business;
-  var open = p.registration === 'open' || (p.registration === 'full' && p.waitlist);
-  var statusText = p.registration === 'open' ? 'Registration open' : p.registration === 'full' ? (p.waitlist ? 'Positions filled – waiting list open' : 'All positions filled') : 'Registration closed';
-  var details = el('dl', {});
-  function row(k, v) { if (v) { details.appendChild(el('dt', { text: k })); details.appendChild(el('dd', { text: v })); } }
-  row('Date', prettyDate(p.eventDate));
-  row('Reporting time', p.reportingTime);
-  row('Working hours', p.startTime ? p.startTime + (p.endTime ? ' – ' + p.endTime : '') : '');
-  row('Venue', p.venue);
-  var card = el('section', { class: 'card' }, [el('span', { class: 'tag ' + (open ? 'open' : 'closed'), text: statusText }), el('div', { style: 'height:10px' }), details]);
-  if (p.mapUrl && /^https?:\/\//.test(p.mapUrl)) card.appendChild(el('p', {}, [el('a', { href: p.mapUrl, target: '_blank', rel: 'noopener', text: 'Open map' })]));
-  var out = [card];
-  if (p.description) out.push(el('h2', { text: 'About this event' }), el('p', { text: p.description }));
-  var roles = el('section', { class: 'card' });
+/* ---------- Aadhaar check (same checksum the server uses) ---------- */
+var VD = [[0,1,2,3,4,5,6,7,8,9],[1,2,3,4,0,6,7,8,9,5],[2,3,4,0,1,7,8,9,5,6],[3,4,0,1,2,8,9,5,6,7],[4,0,1,2,3,9,5,6,7,8],[5,9,8,7,6,0,4,3,2,1],[6,5,9,8,7,1,0,4,3,2],[7,6,5,9,8,2,1,0,4,3],[8,7,6,5,9,3,2,1,0,4],[9,8,7,6,5,4,3,2,1,0]];
+var VP = [[0,1,2,3,4,5,6,7,8,9],[1,5,7,6,2,8,3,0,9,4],[5,8,0,3,7,9,6,1,4,2],[8,9,1,6,0,4,3,5,2,7],[9,4,5,3,1,2,6,8,7,0],[4,2,8,6,5,7,3,9,0,1],[2,7,9,3,8,0,6,4,1,5],[7,0,4,6,9,1,3,2,5,8]];
+function aadhaarOk(n) { if (!/^[2-9]\d{11}$/.test(n)) return false; var c = 0, a = n.split('').reverse(); for (var i = 0; i < a.length; i++) c = VD[c][VP[i % 8][+a[i]]]; return c === 0; }
+
+/* ---------- photo: resize in the browser so uploads stay small ---------- */
+function resizePhoto(file, done, fail) {
+  if (!file || !/^image\//.test(file.type)) return fail('Please choose a photo (JPG or PNG).');
+  var img = new Image(), url = URL.createObjectURL(file);
+  img.onload = function () {
+    var max = 480, s = Math.min(1, max / Math.max(img.width, img.height)), c = document.createElement('canvas');
+    c.width = Math.max(1, Math.round(img.width * s)); c.height = Math.max(1, Math.round(img.height * s));
+    c.getContext('2d').drawImage(img, 0, 0, c.width, c.height); URL.revokeObjectURL(url);
+    var q = 0.72, out = c.toDataURL('image/jpeg', q);
+    while (out.length > 300000 && q > 0.3) { q -= 0.1; out = c.toDataURL('image/jpeg', q); }
+    done(out);
+  };
+  img.onerror = function () { URL.revokeObjectURL(url); fail('We could not read that photo. Try another one.'); };
+  img.src = url;
+}
+
+/* ---------- the "about you" fields, shared by the event form and the availability form ---------- */
+function personFields(roles, opts) {
+  var f = {}, ccs = ['+91', '+971', '+94', '+977', '+880', '+1', '+44'];
+  if (ccs.indexOf(OPTS.countryCode) < 0) ccs.unshift(OPTS.countryCode);
+  f.name = el('input', { id: 'f_name', autocomplete: 'name', maxlength: '80', required: 'required' });
+  f.cc = el('select', { id: 'f_cc', 'aria-label': 'Country code' }, ccs.map(function (c) { var o = el('option', { value: c, text: c }); if (c === OPTS.countryCode) o.selected = true; return o; }));
+  f.mobile = el('input', { id: 'f_mobile', type: 'tel', inputmode: 'numeric', autocomplete: 'tel-national', placeholder: '98765 43210', maxlength: '14', required: 'required' });
+  f.mobile.addEventListener('input', function () { f.mobile.value = f.mobile.value.replace(/[^\d ]/g, ''); });
+  f.role = el('select', { id: 'f_role' }, roles.map(function (r) { return el('option', { value: r.role, text: r.label || r.role }); }));
+  f.aadhaar = el('input', { id: 'f_aad', inputmode: 'numeric', autocomplete: 'off', placeholder: '1234 5678 9012', maxlength: '14' });
+  f.aadhaar.addEventListener('input', function () { var d = f.aadhaar.value.replace(/\D/g, '').slice(0, 12); f.aadhaar.value = d.replace(/(\d{4})(?=\d)/g, '$1 '); });
+  f.photoData = ''; f.preview = el('img', { alt: 'Your photo preview', src: 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==' });
+  f.photoMsg = el('div');
+  f.photo = el('input', { id: 'f_photo', type: 'file', accept: 'image/*' });
+  f.photo.addEventListener('change', function () {
+    f.photoMsg.innerHTML = ''; f.photoData = '';
+    if (!f.photo.files[0]) return;
+    resizePhoto(f.photo.files[0], function (d) { f.photoData = d; f.preview.src = d; }, function (m) { f.photoMsg.appendChild(msgBox(m, 'err')); });
+  });
+  f.consent = el('input', { type: 'checkbox', id: 'f_consent' });
+  f.experience = el('textarea', { id: 'f_exp', rows: '2', maxlength: '300', placeholder: 'For example: 2 years in wedding catering' });
+  f.mobileFull = function () { return f.cc.value + f.mobile.value.replace(/\D/g, '').replace(/^0+/, ''); };
+  f.aad = function () { return f.aadhaar.value.replace(/\D/g, ''); };
+  f.check = function () {
+    if (f.name.value.trim().length < 2) return 'Please enter your full name.';
+    if (f.mobile.value.replace(/\D/g, '').length < 8) return 'Please enter your mobile number.';
+    if (OPTS.requirePhoto && !f.photoData) return 'Please add your photo.';
+    if (OPTS.requireAadhaar && !f.aad()) return 'Please enter your Aadhaar number.';
+    if (f.aad() && !aadhaarOk(f.aad())) return 'Please check your Aadhaar number. It has 12 digits.';
+    if ((f.photoData || f.aad()) && !f.consent.checked) return 'Please tick the box to allow us to keep your photo and Aadhaar number.';
+    return '';
+  };
+  f.data = function () { return { name: f.name.value.trim(), mobile: f.mobileFull(), role: f.role.value, aadhaar: f.aad(), photo: f.photoData, consent: f.consent.checked, experience: f.experience.value.trim() }; };
+  f.nodes = function () {
+    var req = function (on) { return on ? '' : ' (optional)'; };
+    return [
+      el('label', { for: 'f_name', text: 'Full name' }), f.name,
+      el('label', { for: 'f_mobile', text: 'Mobile number' }), el('div', { class: 'row' }, [f.cc, f.mobile]),
+      opts && opts.noRole ? null : el('label', { for: 'f_role', text: opts && opts.roleLabel || 'Job role' }), opts && opts.noRole ? null : f.role,
+      el('label', { for: 'f_photo' }, ['Your photo' + req(OPTS.requirePhoto), el('span', { class: 'hint', text: 'A clear face photo. It helps the team to recognise you on the day.' })]),
+      el('div', { class: 'photo' }, [f.preview, f.photo]), f.photoMsg,
+      el('label', { for: 'f_aad' }, ['Aadhaar number' + req(OPTS.requireAadhaar), el('span', { class: 'hint', text: 'Used only for identity at the venue. You do not need to enter it again next time.' })]), f.aadhaar,
+      el('label', { for: 'f_exp' }, ['Experience', el('span', { class: 'hint', text: 'Optional' })]), f.experience,
+      el('label', { class: 'check', for: 'f_consent' }, [f.consent, 'I allow this business to keep my photo and Aadhaar number to verify who I am for work. I can ask for them to be removed.'])
+    ];
+  };
+  return f;
+}
+function submitBtn(label, handler) {
+  var b = el('button', { type: 'submit', text: label }), holder = el('div');
+  var form = el('form', { novalidate: 'novalidate' }, []);
+  return { form: form, button: b, holder: holder, bind: function () { form.appendChild(holder); form.appendChild(b); form.addEventListener('submit', function (e) { e.preventDefault(); handler(b, holder); }); } };
+}
+
+/* ======================= COMMON "I AM AVAILABLE" PAGE ======================= */
+var INFO = null, PICKED = {}, DAYCACHE = {};
+function startCommon() {
+  setHead('', 'Loading…');
+  run('publicAvailabilityInfo', {}, function (i) {
+    if (i.state !== 'ok') return notice('Not available', 'This service is not available right now. Please contact the team.');
+    INFO = i; OPTS = i; setHead(i.business, 'Which days are you free?'); renderCommon();
+  }, function (m) { notice('Could not load', m); });
+}
+function sortedPicks() { return Object.keys(PICKED).sort(); }
+function renderCommon() {
+  var strip = el('div', { class: 'strip', role: 'group', 'aria-label': 'Choose the days you are free' });
+  for (var i = 0; i < 21; i++) (function (d) {
+    var p = d.split('-'), dt = new Date(Date.UTC(+p[0], +p[1] - 1, +p[2])), cnt = INFO.dates[d] || 0;
+    var b = el('button', { type: 'button', class: 'day', 'aria-pressed': PICKED[d] ? 'true' : 'false', 'aria-label': pretty(d) + (cnt ? ', ' + cnt + ' open event' + (cnt > 1 ? 's' : '') : '') },
+      [el('span', { text: dt.toLocaleDateString('en-IN', { weekday: 'short', timeZone: 'UTC' }) }), el('b', { text: String(+p[2]) }), el('span', { text: dt.toLocaleDateString('en-IN', { month: 'short', timeZone: 'UTC' }) }), cnt ? el('i', { text: String(cnt) }) : null]);
+    b.addEventListener('click', function () { toggle(d); });
+    strip.appendChild(b);
+  })(addDays(INFO.today, i));
+  var other = el('input', { type: 'date', id: 'otherDate', min: INFO.today, max: addDays(INFO.today, 120) });
+  var addOther = el('button', { type: 'button', class: 'ghost', text: 'Add this day' });
+  addOther.style.marginTop = '8px';
+  addOther.addEventListener('click', function () { if (other.value && other.value >= INFO.today) { PICKED[other.value] = true; renderCommon(); } });
+  var chips = el('div', { class: 'chips' }, sortedPicks().map(function (d) {
+    var x = el('button', { type: 'button', 'aria-label': 'Remove ' + pretty(d), text: '×' }); x.addEventListener('click', function () { delete PICKED[d]; renderCommon(); });
+    return el('span', { class: 'chip' }, [pretty(d), x]);
+  }));
+  var nodes = [
+    el('p', { class: 'sub', text: 'Tap every day you can work. A number on a day means there are open events you can apply for.' }),
+    el('div', { class: 'card' }, [strip, el('label', { for: 'otherDate', text: 'A day further ahead?' }), other, addOther, sortedPicks().length ? chips : null]),
+    el('div', { id: 'events' })
+  ];
+  if (sortedPicks().length) nodes.push(availForm()); else nodes.push(el('p', { class: 'sub', text: 'Pick at least one day to continue.' }));
+  nodes.push(statusCard());
+  var keep = window.scrollY; show.apply(null, nodes); window.scrollTo(0, keep);
+  sortedPicks().forEach(loadEvents);
+}
+function toggle(d) { if (PICKED[d]) delete PICKED[d]; else PICKED[d] = true; renderCommon(); }
+function loadEvents(d) {
+  if (!INFO.dates[d]) return;
+  var holder = document.getElementById('events'); if (!holder) return;
+  var slot = el('div'); holder.appendChild(slot);
+  var paint = function (res) {
+    slot.innerHTML = '';
+    if (!res.projects.length) return;
+    slot.appendChild(el('h2', { text: 'Open events on ' + pretty(d) }));
+    res.projects.forEach(function (p) {
+      var link = '?project=' + encodeURIComponent(p.projectId) + '&t=' + encodeURIComponent(p.token) + '&from=days';
+      slot.appendChild(el('div', { class: 'card' }, [
+        el('b', { text: p.name }), el('div', { class: 'sub', text: [p.eventType, p.venue].filter(Boolean).join(' · ') }),
+        el('div', { text: (p.reportingTime ? 'Report at ' + p.reportingTime : '') + (p.startTime ? ' · starts ' + p.startTime : '') }),
+        el('div', { text: p.roles.map(function (r) { return r.role + ' Rs ' + r.wage; }).join(' · ') }),
+        el('a', { class: 'btn small', href: link, text: 'Apply for this event' })]));
+    });
+  };
+  if (DAYCACHE[d]) return paint(DAYCACHE[d]);
+  run('publicOpenProjects', { date: d }, function (r) { DAYCACHE[d] = r; paint(r); }, function (m) { slot.appendChild(msgBox(m, 'err')); });
+}
+function availForm() {
+  var roles = [{ role: '', label: 'Any role' }].concat((INFO.roles || []).map(function (r) { return { role: r }; }));
+  var f = personFields(roles, { roleLabel: 'Which job do you prefer?' });
+  var note = el('input', { id: 'f_note', maxlength: '200', placeholder: 'For example: only mornings' });
+  var s = submitBtn('I am available on ' + (sortedPicks().length > 1 ? 'these days' : 'this day'), function (btn, holder) {
+    holder.innerHTML = ''; var err = f.check();
+    if (err) { holder.appendChild(msgBox(err, 'err')); return; }
+    btn.disabled = true; btn.textContent = 'Sending…';
+    var d = f.data(); d.dates = sortedPicks(); d.note = note.value.trim();
+    run('publicSubmitAvailability', d, function (r) {
+      var lines = [];
+      if (r.saved.length) lines.push('Thank you, ' + r.name + '! We have noted that you are free on: ' + r.saved.map(pretty).join(', ') + '.');
+      if (r.skipped.length) lines.push('You had already told us about: ' + r.skipped.map(pretty).join(', ') + '.');
+      setHead(INFO.business, 'Thank you!');
+      show(el('div', { class: 'card' }, [el('p', { text: lines.join(' ') }), el('p', { class: 'sub', text: 'The team will call or message you on WhatsApp when there is work. You can close this page.' })]),
+        el('a', { class: 'btn ghost', href: location.pathname, text: 'Add more days' }));
+    }, function (m) { btn.disabled = false; btn.textContent = 'I am available'; holder.appendChild(msgBox(m, 'err')); });
+  });
+  f.nodes().forEach(function (n) { s.form.appendChild(n); });
+  s.form.appendChild(el('label', { for: 'f_note' }, ['Anything the team should know?', el('span', { class: 'hint', text: 'Optional' })])); s.form.appendChild(note);
+  s.bind();
+  return el('div', null, [el('h2', { text: 'Your details' }), el('div', { class: 'card' }, [s.form])]);
+}
+
+/* ======================= EVENT PAGE ======================= */
+function startEvent() {
+  run('publicGetProject', { projectId: PID, t: TOKEN }, function (p) {
+    if (p.state === 'notfound') return notice('Link not valid', 'This registration link is not valid. Please ask the team for the correct link.');
+    if (p.state === 'disabled') return notice('Registration closed', 'Registration for "' + p.name + '" is currently closed.');
+    if (p.state === 'unavailable') return notice('Not available', 'Registration is not available right now. Please contact the team.');
+    OPTS = p; renderEvent(p);
+  }, function (m) { notice('Could not load', m); });
+}
+function statusCard() {
+  var ref = el('input', { id: 's_ref', placeholder: 'R-XXXXXXXX', autocapitalize: 'characters', maxlength: '12' }), mob = el('input', { id: 's_mob', type: 'tel', inputmode: 'numeric', placeholder: 'Your mobile number' }), out = el('div');
+  var form = el('form', { novalidate: 'novalidate' }, [el('label', { for: 's_ref', text: 'Reference number' }), ref, el('label', { for: 's_mob', text: 'Mobile number' }), mob, el('button', { type: 'submit', class: 'ghost', text: 'Check status' }), out]);
+  form.addEventListener('submit', function (e) {
+    e.preventDefault(); out.innerHTML = '';
+    run('publicCheckStatus', { ref: ref.value.trim(), mobile: (OPTS.countryCode || '+91') + mob.value.replace(/\D/g, '').replace(/^0+/, '') }, function (r) {
+      var kind = r.status === 'approved' ? 'good' : r.status === 'rejected' ? 'err' : 'wait';
+      var t = r.status === 'approved' ? 'Approved for ' + r.project + ' as ' + r.role + '. Date ' + r.date + ', report at ' + r.reportingTime + ', ' + r.venue + '. Wage Rs ' + r.wage + '.'
+        : r.status === 'rejected' ? 'Sorry, you were not selected for ' + r.project + '.' : (r.waitlisted ? 'You are on the waiting list for ' : 'Your application is under review for ') + r.project + '.';
+      out.appendChild(msgBox(t, kind)); if (r.carry && r.carry.length) out.appendChild(carryBox(r.carry));
+    }, function (m) { out.appendChild(msgBox(m, 'err')); });
+  });
+  return el('div', null, [el('h2', { text: 'Already applied?' }), el('div', { class: 'card' }, [form])]);
+}
+function renderEvent(p) {
+  setHead(OPTS.business, p.name);
+  var rows = [['Date', pretty(p.eventDate)], ['Reporting', p.reportingTime], ['Time', [p.startTime, p.endTime].filter(Boolean).join(' – ')], ['Venue', p.venue]].filter(function (r) { return r[1]; });
+  var details = el('dl', null, []); rows.forEach(function (r) { details.appendChild(el('dt', { text: r[0] })); details.appendChild(el('dd', { text: r[1] })); });
+  if (p.mapUrl && /^https?:\/\//i.test(p.mapUrl)) { details.appendChild(el('dt', { text: 'Map' })); details.appendChild(el('dd', null, [el('a', { href: p.mapUrl, target: '_blank', rel: 'noopener', text: 'Open in Maps' })])); }
+  var nodes = [];
+  if (FROM_LIST) nodes.push(el('a', { class: 'back', href: location.pathname, text: '← Back to days' }));
+  nodes.push(el('div', { class: 'card' }, [details, p.description ? el('p', { text: p.description }) : null]));
+  if (p.instructions) nodes.push(el('div', { class: 'card' }, [el('b', { text: 'Instructions' }), el('p', { text: p.instructions })]));
+  nodes.push(carryBox(p.carry));
+  nodes.push(el('h2', { text: 'Positions' }));
+  var rc = el('div', { class: 'card' });
   p.roles.forEach(function (r) {
     var left = Math.max(0, r.needed - r.filled);
-    roles.appendChild(el('div', { class: 'role' }, [el('span', { text: r.role }), el('span', { text: money(r.wage) + ' · ' + (left ? left + ' of ' + r.needed + ' open' : 'filled') })]));
+    rc.appendChild(el('div', { class: 'role' }, [el('span', { text: r.role }), el('span', null, ['Rs ' + r.wage + ' · ', el('span', { class: 'tag ' + (left ? 'open' : 'full'), text: left ? left + ' needed' : 'Filled' })])]));
   });
-  out.push(el('h2', { text: 'Roles and wages' }), roles);
-  if (p.instructions) out.push(el('h2', { text: 'Instructions' }), el('p', { text: p.instructions }));
-  if (open) out.push(el('h2', { text: 'Register' }), form(p));
-  out.push(el('h2', { text: 'Already applied?' }), statusForm());
-  root.replaceChildren.apply(root, out);
+  nodes.push(rc);
+  if (p.registration === 'closed' || (p.registration === 'full' && !p.waitlist)) {
+    nodes.push(msgBox(p.registration === 'full' ? 'All positions are filled.' : 'Registration for this event is closed.', 'wait'));
+  } else {
+    if (p.registration === 'full') nodes.push(msgBox('All positions are filled, but you can join the waiting list.', 'wait'));
+    var f = personFields(p.roles.map(function (r) { return { role: r.role, label: r.role + ' (Rs ' + r.wage + ')' }; }), { roleLabel: 'Job role' });
+    var carry = el('input', { type: 'checkbox', id: 'f_carry' });
+    var s = submitBtn(p.registration === 'full' ? 'Join waiting list' : 'Apply for this event', function (btn, holder) {
+      holder.innerHTML = ''; var err = f.check();
+      if (!err && p.carry && p.carry.length && !carry.checked) err = 'Please tick the box to say you will carry the items listed.';
+      if (err) { holder.appendChild(msgBox(err, 'err')); return; }
+      btn.disabled = true; btn.textContent = 'Sending…';
+      var d = f.data(); d.projectId = PID; d.t = TOKEN;
+      run('publicRegister', d, function (r) {
+        setHead(OPTS.business, 'Application sent');
+        show(el('div', { class: 'card center' }, [el('p', { text: r.waitlisted ? 'You are on the waiting list.' : 'Thank you! Your application was received.' }), el('div', { class: 'ref', text: r.reference }),
+          el('p', { class: 'sub', text: 'Save this reference number. Use it with your mobile number to check your status.' })]), carryBox(p.carry));
+      }, function (m) { btn.disabled = false; btn.textContent = 'Apply for this event'; holder.appendChild(msgBox(m, 'err')); });
+    });
+    f.nodes().forEach(function (n) { s.form.appendChild(n); });
+    if (p.carry && p.carry.length) s.form.appendChild(el('label', { class: 'check', for: 'f_carry' }, [carry, 'I will carry all the items listed above.']));
+    s.bind();
+    nodes.push(el('h2', { text: 'Apply' })); nodes.push(el('div', { class: 'card' }, [s.form]));
+  }
+  nodes.push(statusCard());
+  show.apply(null, nodes);
 }
 
-function field(id, label, node) { return [el('label', { for: id, text: label }), node]; }
-function form(p) {
-  var f = el('form', { class: 'card', novalidate: 'novalidate' });
-  var name = el('input', { id: 'f-name', autocomplete: 'name', required: 'required', maxlength: 80 });
-  var mobile = el('input', { id: 'f-mobile', type: 'tel', autocomplete: 'tel', inputmode: 'tel', value: CC + ' ', required: 'required' });
-  var role = el('select', { id: 'f-role' }, p.roles.map(function (r) { return el('option', { value: r.role, text: r.role + ' – ' + money(r.wage) }); }));
-  var avail = el('input', { id: 'f-avail', placeholder: 'e.g. Full day, evening only', maxlength: 200 });
-  var exp = el('textarea', { id: 'f-exp', rows: 2, maxlength: 300, placeholder: 'Optional' });
-  [field('f-name', 'Full name', name), field('f-mobile', 'Mobile number (with country code)', mobile), field('f-role', 'Preferred role', role), field('f-avail', 'Availability', avail), field('f-exp', 'Experience', exp)]
-    .forEach(function (g) { g.forEach(function (n) { f.appendChild(n); }); });
-  var btn = el('button', { type: 'submit', text: 'Submit application' });
-  f.appendChild(btn);
-  f.addEventListener('submit', function (ev) {
-    ev.preventDefault();
-    if (name.value.trim().length < 2) return note(f, 'err', 'Enter your full name.');
-    if (mobile.value.replace(/\D/g, '').length < 8) return note(f, 'err', 'Enter a valid mobile number with country code.');
-    btn.disabled = true; btn.textContent = 'Submitting…';
-    run('publicRegister', { projectId: PID, t: TOKEN, name: name.value, mobile: mobile.value, role: role.value, availability: avail.value, experience: exp.value }, function (r) {
-      try { localStorage.setItem('dailyb_ref_' + PID, r.reference + '|' + mobile.value); } catch (e) {}
-      f.replaceChildren(el('p', { text: r.waitlisted ? 'You are on the waiting list for ' + r.project + '.' : 'Application received for ' + r.project + '.' }),
-        el('div', { class: 'ref', text: r.reference }),
-        el('p', { text: 'Save this reference. Use it with your mobile number to check your status. You will be contacted on WhatsApp once the organiser decides.' }));
-    }, function (e) { btn.disabled = false; btn.textContent = 'Submit application'; note(f, 'err', e); });
-  });
-  return f;
-}
-
-function statusForm() {
-  var f = el('form', { class: 'card', novalidate: 'novalidate' });
-  var saved = ''; try { saved = localStorage.getItem('dailyb_ref_' + PID) || ''; } catch (e) {}
-  var ref = el('input', { id: 's-ref', placeholder: 'R-XXXXXXXX', autocapitalize: 'characters', value: saved.split('|')[0] || '' });
-  var mob = el('input', { id: 's-mob', type: 'tel', inputmode: 'tel', value: saved.split('|')[1] || CC + ' ' });
-  [field('s-ref', 'Application reference', ref), field('s-mob', 'Mobile number', mob)].forEach(function (g) { g.forEach(function (n) { f.appendChild(n); }); });
-  var btn = el('button', { type: 'submit', class: 'ghost', text: 'Check my status' });
-  f.appendChild(btn);
-  f.addEventListener('submit', function (ev) {
-    ev.preventDefault(); btn.disabled = true;
-    run('publicCheckStatus', { ref: ref.value, mobile: mob.value }, function (s) {
-      btn.disabled = false;
-      var map = { pending: ['wait', 'Pending – the organiser has not decided yet.'], approved: ['good', 'Approved – you are selected.'], rejected: ['err', 'Not selected for this event.'], withdrawn: ['wait', 'Withdrawn.'] };
-      var m = map[s.status] || ['wait', s.status];
-      var text = s.project + ' (' + s.role + '): ' + m[1] + (s.waitlisted && s.status === 'pending' ? ' You are on the waiting list.' : '');
-      if (s.status === 'approved') text += ' ' + prettyDate(s.date) + ', report at ' + s.reportingTime + ', ' + s.venue + '. Wage ' + money(s.wage) + '.';
-      note(f, m[0], text);
-    }, function (e) { btn.disabled = false; note(f, 'err', e); });
-  });
-  return f;
-}
+if (!API || API.indexOf('PASTE_') === 0) notice('Not set up', 'This site is not connected yet. Please add the API address in config.js.');
+else if (PID && TOKEN) startEvent();
+else startCommon();
 </script>
 </body>
 </html>
